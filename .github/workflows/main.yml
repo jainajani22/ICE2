@@ -1,22 +1,5 @@
-name: Snyk Security Scan
-on: push
-jobs:
-  security_scan:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      
-      - name: Install Snyk
-        run: npm install -g snyk
-      
-      - name: Authenticate Snyk
-        run: snyk auth ${{ secrets.SNYK_c3e6f5d7-e927-4254-bd27-42babf3722e8 }}
+- name: Run Snyk Security Scan
+  run: snyk test
+  env:
+    SNYK_TOKEN: ${{ secrets.SNYK_c3e6f5d7-e927-4254-bd27-42babf3722e8 }}
 
-      - name: Run Snyk scan
-        run: snyk test
