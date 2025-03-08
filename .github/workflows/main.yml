@@ -13,7 +13,7 @@ jobs:
           node-version: 16
       
       - name: Install Snyk
-        run: npm install -g snyk
+        run: npm install
       
       - name: Authenticate Snyk
         run: snyk auth ${{ secrets.c3e6f5d7-e927-4254-bd27-42babf3722e8 }}
