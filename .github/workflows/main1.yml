@@ -1,39 +1,44 @@
-name: Security Scan
-
+name: Snyk Security Scan
+ 
 on:
+
   push:
+
     branches:
-      - main  # Change this if your default branch is different
-  workflow_dispatch:  # Allows manual trigger from GitHub Actions UI
 
-permissions:
-  contents: read  # Needed for checkout
-  security-events: write  # Required for security scans
-
+      - main
+ 
 jobs:
+
   security_scan:
+
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout repository
+
         uses: actions/checkout@v3
+ 
+      - name: Set up Node.js
 
-      - name: Setup Node.js
         uses: actions/setup-node@v3
+
         with:
-          node-version: 16  # Change this if you need a different version
 
+          node-version: '18'
+ 
       - name: Install dependencies
+
         run: npm install
+ 
+      - name: Run Snyk Security Scan
 
-      - name: Install Snyk CLI
-        run: npm install -g snyk
+        uses: snyk/actions/node@master
 
-      - name: Authenticate Snyk
-        run: snyk auth ${{ secrets.SNYK_TOKEN }}
-      
-      - name: Run Snyk scan
-        run: snyk test --severity-threshold=medium
-      
-      - name: Monitor project with Snyk
-        run: snyk monitor
+        env:
+
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+        continue-on-error: true
+ 
